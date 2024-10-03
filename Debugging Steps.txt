@@ -1,0 +1,35 @@
+Debugging Notes
+
+Inventory Class - Destructor:
+File: Inventory.h
+Observation: The destructor correctly frees the dynamically allocated memory for each Item in the m_Items vector by deleting each item. This prevents memory leaks when an Inventory object is destroyed.
+
+Inventory - Print:
+File: Inventory.h
+Observation: The Print function dynamically allocates memory for nSize. Although the memory is correctly deleted after use, dynamic allocation in this context is unnecessary and could potentially lead to memory leaks. The memory should be managed more effectively or avoided entirely.
+
+Item - Constructor:
+File: Item.cpp
+Observation: The constructor correctly initializes m_Name and dynamically allocates memory for m_Value. This allocation is necessary for the current implementation.
+
+Item - Destructor:
+File: Item.cpp
+Observation: The destructor is correctly implemented, freeing the dynamically allocated memory for m_Value. This ensures that no memory leaks occur when an Item object is destroyed.
+
+Item - Print:
+File: Item.cpp
+Observation: The Print function previously allocated memory for a temporary pointer value to print the value of m_Value, but it was not freed, causing a memory leak. This issue was resolved by removing the unnecessary allocation and printing the value directly.
+
+ScopeMain:
+File: ScopeMain.cpp
+Observation: The ScopeMain function dynamically creates a Store object and correctly deletes it at the end. This ensures that all memory allocated by Store is properly released.
+
+Store - Constructor:
+File: Store.cpp
+Observation: The constructor for Store correctly allocates memory for an array of Inventory objects using new[]. This allocation is necessary for managing multiple Inventory objects.
+
+Store - Destructor:
+File: Store.cpp
+Observation: The destructor correctly uses delete[] to free the array of Inventory objects, matching the original allocation method. This prevents memory leaks related to the m_Inventories array.
+
+(*I feel something is still wrong in item.cpp and not correctly using the m_value)*
